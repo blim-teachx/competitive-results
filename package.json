@@ -1,0 +1,10 @@
+{
+  "name": "swe-arena-4",
+  "version": "1.0.0",
+  "description": "Competitive results website with Next.js frontend and Django backend",
+  "scripts": {
+    "setup": "cd backend && python3 -m venv venv && . venv/bin/activate && pip install -r requirements.txt && python manage.py migrate && python manage.py seed_data && cd ../frontend && npm install",
+    "backend-start": "cd backend && . venv/bin/activate && python manage.py runserver 8000",
+    "frontend-start": "cd frontend && npm run dev"
+  }
+}
