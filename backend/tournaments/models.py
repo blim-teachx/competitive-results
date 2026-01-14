@@ -11,21 +11,6 @@ class Team(models.Model):
         return self.name
 
 
-class Player(models.Model):
-    """Represents a player on a team."""
-
-    name = models.CharField(max_length=100)
-    team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="players")
-    role = models.CharField(max_length=50, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.name} ({self.team.name})"
-
-    class Meta:
-        ordering = ["name"]
-
-
 class Tournament(models.Model):
     """Represents a tournament."""
 

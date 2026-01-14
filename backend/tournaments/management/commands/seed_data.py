@@ -2,7 +2,7 @@ from datetime import date
 
 from django.core.management.base import BaseCommand
 
-from tournaments.models import Match, Player, Team, Tournament
+from tournaments.models import Match, Team, Tournament
 
 
 class Command(BaseCommand):
@@ -11,76 +11,24 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.stdout.write("Seeding database...")
 
-        # Create teams that appear across multiple tournaments with their players
-        teams_data = {
-            "Thunder Hawks": [
-                ("Alex Storm", "Captain"),
-                ("Jordan Blaze", "Support"),
-                ("Casey Thunder", "DPS"),
-                ("Riley Hawk", "Tank"),
-                ("Morgan Swift", "Flex"),
-            ],
-            "Storm Breakers": [
-                ("Sam Lightning", "Captain"),
-                ("Taylor Wave", "Support"),
-                ("Jamie Gale", "DPS"),
-                ("Drew Tempest", "Tank"),
-                ("Quinn Surge", "Flex"),
-            ],
-            "Phoenix Rising": [
-                ("Avery Flame", "Captain"),
-                ("Blake Ember", "Support"),
-                ("Charlie Ash", "DPS"),
-                ("Dana Spark", "Tank"),
-                ("Ellis Fire", "Flex"),
-            ],
-            "Iron Wolves": [
-                ("Finn Steel", "Captain"),
-                ("Gray Fang", "Support"),
-                ("Harper Claw", "DPS"),
-                ("Indigo Howl", "Tank"),
-                ("Jesse Pack", "Flex"),
-            ],
-            "Shadow Knights": [
-                ("Kai Shade", "Captain"),
-                ("Lee Dusk", "Support"),
-                ("Max Shadow", "DPS"),
-                ("Nico Dark", "Tank"),
-                ("Oakley Knight", "Flex"),
-            ],
-            "Golden Eagles": [
-                ("Parker Gold", "Captain"),
-                ("Quinn Talon", "Support"),
-                ("Reese Soar", "DPS"),
-                ("Sage Wing", "Tank"),
-                ("Tatum Sky", "Flex"),
-            ],
-            "Cyber Dragons": [
-                ("Uma Circuit", "Captain"),
-                ("Val Byte", "Support"),
-                ("Winter Code", "DPS"),
-                ("Xen Data", "Tank"),
-                ("Yuri Pixel", "Flex"),
-            ],
-            "Frost Giants": [
-                ("Zara Ice", "Captain"),
-                ("Atlas Frost", "Support"),
-                ("Blair Glacier", "DPS"),
-                ("Coby Snow", "Tank"),
-                ("Devon Chill", "Flex"),
-            ],
-        }
+        # Create teams that appear across multiple tournaments
+        teams_data = [
+            "Thunder Hawks",
+            "Storm Breakers",
+            "Phoenix Rising",
+            "Iron Wolves",
+            "Shadow Knights",
+            "Golden Eagles",
+            "Cyber Dragons",
+            "Frost Giants",
+        ]
 
         teams = {}
-        for team_name, players in teams_data.items():
-            team, created = Team.objects.get_or_create(name=team_name)
-            teams[team_name] = team
+        for name in teams_data:
+            team, created = Team.objects.get_or_create(name=name)
+            teams[name] = team
             if created:
-                self.stdout.write(f"  Created team: {team_name}")
-                # Add players to the team
-                for player_name, role in players:
-                    Player.objects.create(name=player_name, team=team, role=role)
-                    self.stdout.write(f"    Added player: {player_name} ({role})")
+                self.stdout.write(f"  Created team: {name}")
 
         # Tournament 1: Round of 8 (Quarterfinals -> Semifinals -> Finals)
         tournament1, created = Tournament.objects.get_or_create(
